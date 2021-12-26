@@ -1,0 +1,16 @@
+{
+  "name": "todo-term",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "extras": "^0.7.4",
+    "mongowave": "^0.2.5",
+    "prompt": "^1.2.0"
+  }
+}
