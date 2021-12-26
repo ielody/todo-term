@@ -1,8 +1,6 @@
 const connection = require('mongowave')
 const { input } = require('extras')
-//const extras = require('extras')
-const prompt = require('prompt')
-prompt.start()
+const extras = require('extras')
 
 async function run() {
   const db = await connection({ name: 'todo-term' })
@@ -14,30 +12,31 @@ async function run() {
     console.log('4: Change existing task')
     console.log('x: Exit application')
 
-  const { command } = await prompt.get(['command'])
+  const command = await input()
+
     if(command === '1') {
-      console.log("Your tasks:")
+      console.log('Your tasks:')
     }
 
     else if(command === '2') {
-      console.log('Enter a new task:')
+      console('Enter new task')
     }
 
     else if(command === '3') {
-      console.log("Choose task to be deleted")
+      console.log('Choose task to be deleted')
     }
 
     else if(command === '4') {
-      console.log("Choose task to update")
+      console.log('Choose task to update')
     }
 
     else if(command === 'x') {
-      console.log("Leaving app")
+      console.log('Leaving app')
       process.exit(1)
     }
 
     else {
-      console.log('command not found')
+      console.log('Command not found')
     }
   }
 }
