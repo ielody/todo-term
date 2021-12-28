@@ -2,12 +2,13 @@ const connection = require('mongowave')
 const { input } = require('extras')
 const extras = require('extras')
 
+
 async function run() {
   const db = await connection({ name: 'todo-term' })
     while(true) {
 
-    console.log('1: Show to-do list')
-    console.log('2: Add new task')
+    console.log('1: Add new task')
+    console.log('2: Show to-do list')
     console.log('3: Delete task')
     console.log('4: Change existing task')
     console.log('x: Exit application')
@@ -15,11 +16,10 @@ async function run() {
   const command = await input()
 
     if(command === '1') {
-      console.log('Your tasks:')
+      createTask()
     }
 
     else if(command === '2') {
-      console('Enter new task')
     }
 
     else if(command === '3') {
@@ -27,7 +27,7 @@ async function run() {
     }
 
     else if(command === '4') {
-      console.log('Choose task to update')
+      console.log('Mark task as complete')
     }
 
     else if(command === 'x') {
@@ -40,6 +40,15 @@ async function run() {
     }
   }
 }
+
+  async function createTask() {
+    const db = await connection({ name: 'todo-term' })
+    console.log('Please enter a new task')
+    const task = await input()
+    await db('todo').create({ task })
+    run()
+    //printMenu()
+  }
 
 run()
 
