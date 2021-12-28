@@ -20,6 +20,7 @@ async function run() {
     }
 
     else if(command === '2') {
+      showTasks()
     }
 
     else if(command === '3') {
@@ -27,7 +28,7 @@ async function run() {
     }
 
     else if(command === '4') {
-      console.log('Mark task as complete')
+      console.log('Change existing task')
     }
 
     else if(command === 'x') {
@@ -46,9 +47,16 @@ async function run() {
     console.log('Please enter a new task')
     const task = await input()
     await db('todo').create({ task })
+    console.log(task)
     run()
     //printMenu()
   }
 
+async function showTasks() {
+  const db = await connection({ name: 'todo-term' })
+  console.log('Your tasks:')
+  const result = await db('todo-term').find()
+  console.log(result)
+}
 run()
 
