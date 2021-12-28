@@ -24,7 +24,7 @@ async function run() {
     }
 
     else if(command === '3') {
-      console.log('Choose task to be deleted')
+      deleteTask()
     }
 
     else if(command === '4') {
@@ -42,14 +42,12 @@ async function run() {
   }
 }
 
-  async function createTask() {
-    const db = await connection({ name: 'todo-term' })
-    console.log('Please enter a new task')
-    const task = await input()
-    await db('todo-term').create({ task })
-    console.log(task)
-    run()
-    //printMenu()
+async function createTask() {
+  const db = await connection({ name: 'todo-term' })
+  console.log('Please enter a new task')
+  const task = await input()
+  await db('todo-term').create({ task })
+  run()
   }
 
 async function showTasks() {
@@ -58,5 +56,11 @@ async function showTasks() {
   const result = await db('todo-term').find()
   console.log(result)
 }
-run()
 
+async function deleteTask() {
+  const db = await connection({ name: 'todo-term' })
+  showTasks()
+  console.log('Choose task to be deleted')
+}
+
+run()
