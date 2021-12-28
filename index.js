@@ -46,7 +46,7 @@ async function run() {
     const db = await connection({ name: 'todo-term' })
     console.log('Please enter a new task')
     const task = await input()
-    await db('todo').create({ task })
+    await db('todo-term').create({ task })
     console.log(task)
     run()
     //printMenu()
@@ -55,7 +55,7 @@ async function run() {
 async function showTasks() {
   const db = await connection({ name: 'todo-term' })
   console.log('Your tasks:')
-  const result = await db('todo-term').find()
+  const result = await db('todo-term').find({}, { fields: { id:false}})
   console.log(result)
 }
 run()
