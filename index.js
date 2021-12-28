@@ -55,7 +55,7 @@ async function run() {
 async function showTasks() {
   const db = await connection({ name: 'todo-term' })
   console.log('Your tasks:')
-  const result = await db('todo-term').find({}, { fields: { id:false}})
+  const result = await db('todo-term').find()
   console.log(result)
 }
 run()
