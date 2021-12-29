@@ -2,7 +2,6 @@ const connection = require('mongowave')
 const { input } = require('extras')
 const extras = require('extras')
 
-
 async function run() {
   const db = await connection({ name: 'todo-term' })
     while(true) {
@@ -16,15 +15,15 @@ async function run() {
   const command = await input()
 
     if(command === '1') {
-      createTask()
+      createTask(db)
     }
 
     else if(command === '2') {
-      showTasks()
+      showTasks(db)
     }
 
     else if(command === '3') {
-      deleteTask()
+      deleteTask(db)
     }
 
     else if(command === '4') {
@@ -42,25 +41,28 @@ async function run() {
   }
 }
 
-async function createTask() {
-  const db = await connection({ name: 'todo-term' })
+async function createTask(db) {
   console.log('Please enter a new task')
   const task = await input()
   await db('todo-term').create({ task })
   run()
   }
 
-async function showTasks() {
-  const db = await connection({ name: 'todo-term' })
+async function showTasks(db) {
   console.log('Your tasks:')
   const result = await db('todo-term').find()
   console.log(result)
+  run()
 }
 
-async function deleteTask() {
-  const db = await connection({ name: 'todo-term' })
-  showTasks()
-  console.log('Choose task to be deleted')
-}
+// async function deleteTask() {
+//   const db = await connection({ name: 'todo-term' })
+//   showTasks()
+//   const task = await input()
+//   console.log('Enter name of task to be deleted')
+//   const result = await db('todo-term').delete({ task })
+//   console.log("Number of tasks deleted" + result)
+//   run()
+//}
 
 run()
