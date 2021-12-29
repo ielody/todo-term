@@ -11,6 +11,7 @@ async function run() {
     console.log('3: Delete task')
     console.log('4: Change existing task')
     console.log('x: Exit application')
+    console.log('')
 
   const command = await input()
 
@@ -44,25 +45,20 @@ async function run() {
 async function createTask(db) {
   console.log('Please enter a new task')
   const task = await input()
-  await db('todo-term').create({ task })
-  run()
+  await db('todo').create({ task })
   }
 
 async function showTasks(db) {
   console.log('Your tasks:')
-  const result = await db('todo-term').find()
+  const result = await db('todo').find()
   console.log(result)
-  run()
+
 }
 
-// async function deleteTask() {
-//   const db = await connection({ name: 'todo-term' })
-//   showTasks()
-//   const task = await input()
-//   console.log('Enter name of task to be deleted')
-//   const result = await db('todo-term').delete({ task })
-//   console.log("Number of tasks deleted" + result)
-//   run()
-//}
+async function deleteTask(db) {
+  console.log('Enter name of task to be deleted')
+  const task = await input()
+  const result = await db('todo').delete({ task })
+}
 
 run()
