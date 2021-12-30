@@ -50,9 +50,10 @@ async function createTask(db) {
 
 async function showTasks(db) {
   console.log('Your tasks:')
-  const result = await db('todo').find()
-  console.log(result)
-
+  const todos = await db('todo').find()
+  todos.forEach((todo, i) => {
+    console.log(`${i + 1 + '.'} ${todo.task}`)
+  })
 }
 
 async function deleteTask(db) {
