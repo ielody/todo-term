@@ -57,9 +57,14 @@ async function showTasks(db) {
 }
 
 async function deleteTask(db) {
-  console.log('Enter name of task to be deleted')
+  //writing list
+  const todos = await db('todo').find()
+  todos.forEach((todo, i) => {
+  console.log(`${i + 1 + '.'} ${todo.task}`)
+})//user input number
+  console.log('Enter number of task to be deleted')
   const task = await input()
-  const result = await db('todo').delete({ task })
+  const tasks = await db('todo').delete({ task })
 }
 
 run()
