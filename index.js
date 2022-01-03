@@ -42,6 +42,7 @@ async function run() {
   }
 }
 
+
 function printMenu() {
     console.log('1: Add new task')
     console.log('2: Show to-do list')
@@ -50,11 +51,14 @@ function printMenu() {
     console.log('x: Exit application')
     console.log('')
 }
+
+
 async function createTask(db) {
   const task = await input()
   await db('todo').create({ task })
   console.log('Please enter a new task')
   }
+
 
 async function showTasks(db) {
   console.log('Your tasks:')
@@ -69,15 +73,14 @@ async function showTasks(db) {
   printMenu()
 }
 
-async function deleteTask(db) {
 
-  //show list
+async function deleteTask(db) {
+//show list
   const todos = await db('todo').find()
   todos.forEach((todo, i) => {
   console.log(`${i + 1 + '.'} ${todo.task}`)
   })
-
-  //input
+  //input number
   console.log(' ')
   console.log('Enter the number of the task to delete')
   var number = await input()
@@ -87,22 +90,27 @@ async function deleteTask(db) {
   console.log(task.task, 'has been deleted')
 }
 
+
 async function updateTask(db) {
   //show list
   const todos = await db('todo').find()
   todos.forEach((todo, i) => {
   console.log(`${i + 1 + '.'} ${todo.task}`)
   })
-
-  //input
+  //input number
   console.log(' ')
   console.log('Enter the number of the task to update')
+
   var number = await input()
   var index = parseInt(number) - 1
   var task = todos[index]
   await db('todo').find({ id: task.id })
-  console.log('Change existing task')
 
+  //input text
+  console.log('Write text to update task')
+  const text = await input()
+  await db('todo').update({task: task.task}, {task: text})
+  console.log({task: text})
 }
 
 run()
