@@ -42,6 +42,14 @@ async function run() {
   }
 }
 
+function printMenu() {
+    console.log('1: Add new task')
+    console.log('2: Show to-do list')
+    console.log('3: Delete task')
+    console.log('4: Change existing task')
+    console.log('x: Exit application')
+    console.log('')
+}
 async function createTask(db) {
   const task = await input()
   await db('todo').create({ task })
@@ -58,6 +66,7 @@ async function showTasks(db) {
 
   console.log(' ')
   console.log("What do you want to do next?")
+  printMenu()
 }
 
 async function deleteTask(db) {
