@@ -51,19 +51,23 @@ async function createTask(db) {
 async function showTasks(db) {
   console.log('Your tasks:')
   const todos = await db('todo').find()
+
   todos.forEach((todo, i) => {
   console.log(`${i + 1 + '.'} ${todo.task}`)
   })
+
   console.log(' ')
   console.log("What do you want to do next?")
 }
 
 async function deleteTask(db) {
+
   //show list
   const todos = await db('todo').find()
   todos.forEach((todo, i) => {
   console.log(`${i + 1 + '.'} ${todo.task}`)
   })
+
   //input
   console.log(' ')
   console.log('Enter the number of the task to delete')
@@ -75,8 +79,19 @@ async function deleteTask(db) {
 }
 
 async function updateTask(db) {
+  //show list
+  const todos = await db('todo').find()
+  todos.forEach((todo, i) => {
+  console.log(`${i + 1 + '.'} ${todo.task}`)
+  })
 
-
+  //input
+  console.log(' ')
+  console.log('Enter the number of the task to update')
+  var number = await input()
+  var index = parseInt(number) - 1
+  var task = todos[index]
+  await db('todo').find({ id: task.id })
   console.log('Change existing task')
 
 }
