@@ -58,8 +58,6 @@ async function createTask(db) {
   console.log('Enter a new task')
   const task = await input()
   await db('todo').create({ task })
-
-  //printMenu()
 }
 
 
@@ -110,7 +108,7 @@ async function updateTask(db) {
   console.log('Enter text to update task')
   const text = await input()
   await db('todo').update({task: task.task}, {task: text})
-  console.log('changed task to', {task: text})
+  console.log('changed task to', text)
   printMenu()
 }
 
