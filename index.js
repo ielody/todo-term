@@ -37,13 +37,12 @@ async function run() {
 
 
 function printMenu() {
-  console.log('Choose a number')
+  console.log('\nChoose a number')
   console.log('1: Add new task')
   console.log('2: Show to-do list')
   console.log('3: Delete task')
   console.log('4: Change existing task')
-  console.log('x: Exit application')
-  console.log('')
+  console.log('x: Exit application\n')
 }
 
 
@@ -55,13 +54,11 @@ async function createTask(db) {
 
 
 async function showTasks(db) {
-  console.log('Your tasks:')
+  console.log('\nYour tasks:\n')
   const todos = await db('todo').find()
   todos.forEach((todo, i) => {
   console.log(`${i + 1 + '.'} ${todo.task}`)
   })
-  console.log(' ')
-  printMenu()
 }
 
 
@@ -72,20 +69,16 @@ async function deleteTask(db) {
   console.log(`${i + 1 + '.'} ${todo.task}`)
   })
   //input number
-  console.log(' ')
-  console.log('Enter the number of the task to delete')
+  console.log('\nEnter the number of the task to delete')
   var number = await input()
   var index = parseInt(number) - 1
-  var task = todos[index]
-
-  if(number > todos.length) {
-    console.log('Not valid')
+  var todo = todos[index]
+  if(todo) {
+    await db('todo').delete({ id: todo.id })
+    console.log(todo.task, 'has been deleted')
+  } else {
+    console.log('Invalid todo number')
   }
-
-  await db('todo').delete({ id: task.id })
-  console.log(task.task, 'has been deleted')
-
-  printMenu()
 }
 
 
@@ -96,8 +89,7 @@ async function updateTask(db) {
   console.log(`${i + 1 + '.'} ${todo.task}`)
   })
   //input number
-  console.log(' ')
-  console.log('Enter the number of the task to update')
+  console.log('\nEnter the number of the task to update')
   var number = await input()
   var index = parseInt(number) - 1
   var task = todos[index]
