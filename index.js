@@ -4,31 +4,24 @@ const { input } = require('extras')
 
 async function run() {
   const db = await connection({ name: 'todo-term' })
-    while(true) {
-
-    console.log('1: Add new task')
-    console.log('2: Show to-do list')
-    console.log('3: Delete task')
-    console.log('4: Change existing task')
-    console.log('x: Exit application')
-    console.log('')
-
-  const command = await input()
+  while(true) {
+    printMenu()
+    const command = await input()
 
     if(command === '1') {
-      createTask(db)
+      await createTask(db)
     }
 
     else if(command === '2') {
-      showTasks(db)
+      await showTasks(db)
     }
 
     else if(command === '3') {
-      deleteTask(db)
+      await deleteTask(db)
     }
 
     else if(command === '4') {
-      updateTask(db)
+      await updateTask(db)
     }
 
     else if(command === 'x') {
@@ -84,8 +77,14 @@ async function deleteTask(db) {
   var number = await input()
   var index = parseInt(number) - 1
   var task = todos[index]
+
+  if(number > todos.length) {
+    console.log('Not valid')
+  }
+
   await db('todo').delete({ id: task.id })
   console.log(task.task, 'has been deleted')
+
   printMenu()
 }
 
