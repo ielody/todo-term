@@ -48,8 +48,8 @@ function printMenu() {
 
 async function createTask(db) {
   console.log('Enter a new task')
-  const task = await input()
-  await db('todo').create({ task })
+  const todo = await input()
+  await db('todo').create({ todo })
 }
 
 
@@ -73,7 +73,7 @@ async function deleteTask(db) {
   var number = await input()
   var index = parseInt(number) - 1
   var todo = todos[index]
-  if(todo) {
+  if (todo) {
     await db('todo').delete({ id: todo.id })
     console.log(todo.task, 'has been deleted')
   } else {
@@ -92,15 +92,14 @@ async function updateTask(db) {
   console.log('\nEnter the number of the task to update')
   var number = await input()
   var index = parseInt(number) - 1
-  var task = todos[index]
-  await db('todo').find({ id: task.id })
+  var todo = todos[index]
+  await db('todo').find({ id: todo.id })
 
   //input text
   console.log('Enter text to update task')
   const text = await input()
-  await db('todo').update({task: task.task}, {task: text})
+  await db('todo').update({id: todo.id}, {task: text})
   console.log('changed task to', text)
-  printMenu()
 }
 
 run()
