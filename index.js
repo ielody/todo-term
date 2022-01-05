@@ -102,8 +102,12 @@ async function updateTask(db) {
   //input text
 
   const text = await input()
-  await db('todo').update({id: todo.id}, {task: text})
-  console.log('changed task to', text)
+  if (text.length > 2) {
+    await db('todo').update({id: todo.id}, {task: text})
+    console.log('changed task to', text)
+  } else {
+    console.log('Text needs to be longer than 2 characters')
+  }
 }
 
 run()
