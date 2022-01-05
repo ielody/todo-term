@@ -93,10 +93,14 @@ async function updateTask(db) {
   var number = await input()
   var index = parseInt(number) - 1
   var todo = todos[index]
-  await db('todo').find({ id: todo.id })
-
+  if (todo) {
+    await db('todo').find({ id: todo.id })
+    console.log('Enter text to update task')
+  } else {
+    console.log('Invalid todo number')
+  }
   //input text
-  console.log('Enter text to update task')
+
   const text = await input()
   await db('todo').update({id: todo.id}, {task: text})
   console.log('changed task to', text)
