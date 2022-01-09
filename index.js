@@ -48,12 +48,13 @@ function printMenu() {
 
 async function createTask(db) {
   console.log('Enter a new task')
-  const todo = await input()
-  if(todo.length > 2) {
-    await db('todo').create({ todo })
-    console.log('Task was added to the list')
+  const task = await input()
+  console.log(task)
+  if(task.length > 1) {
+    await db('todo').create({ task })
+    console.log(task, 'was added to the list')
   } else {
-    console.log('The text needs to be longer than 2 characters')
+    console.log('The text needs to be longer than 1 character')
   }
 }
 
@@ -107,11 +108,11 @@ async function updateTask(db) {
   //input text
 
   const text = await input()
-  if (text.length > 2) {
+  if (text.length > 1) {
     await db('todo').update({id: todo.id}, {task: text})
     console.log('changed task to', text)
   } else {
-    console.log('The text needs to be longer than 2 characters')
+    console.log('The text needs to be longer than 1 character')
   }
 }
 
