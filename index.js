@@ -4,7 +4,9 @@ const { input } = require('extras')
 
 async function run() {
   const db = await connection({ name: 'todo-term' })
+  //await showTasks(db)
   while(true) {
+
     printMenu()
     const command = await input()
 
@@ -49,7 +51,6 @@ function printMenu() {
 async function createTask(db) {
   console.log('Enter a new task')
   const task = await input()
-  console.log(task)
   if(task.length > 1) {
     await db('todo').create({ task })
     console.log(task, 'was added to the list')
@@ -76,16 +77,20 @@ async function deleteTask(db) {
   })
   //input number
   console.log('\nEnter the number of the task to delete')
-  var number = await input()
-  var index = parseInt(number) - 1
-  var todo = todos[index]
-  if (todo) {
-    await db('todo').delete({ id: todo.id })
-    console.log(todo.task, 'has been deleted')
-  } else {
-    console.log('Invalid todo number')
+  var numbers = await input()
+  numbers = numbers.split(',').map(x => x.trim())
+  for (const number of numbers) {
+    var index = parseInt(number) - 1
+      var todo = todos[index]
+      if (todo) {
+        await db('todo').delete({ id: todo.id })
+        console.log(todo.task, 'has been deleted')
+        } else {
+        console.log('Invalid todo number')
+    }
   }
 }
+
 
 
 async function updateTask(db) {
@@ -105,8 +110,8 @@ async function updateTask(db) {
   } else {
     console.log('Invalid todo number')
   }
-  //input text
 
+  //input text
   const text = await input()
   if (text.length > 1) {
     await db('todo').update({id: todo.id}, {task: text})
