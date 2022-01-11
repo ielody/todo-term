@@ -32,6 +32,11 @@ async function run() {
       process.exit(1)
     }
 
+    else if(command === '5') {
+      await markDone(db)
+    }
+
+
     else {
       console.log(c.red('Command not found'))
     }
@@ -45,7 +50,9 @@ function printMenu() {
   console.log(c.blue('2: Show to-do list'))
   console.log(c.blue('3: Delete task'))
   console.log(c.blue('4: Change existing task'))
+  console.log(c.blue('5: Mark task as done'))
   console.log(c.blue('x: Exit application\n'))
+
 }
 
 
@@ -110,15 +117,20 @@ async function updateTask(db) {
   } else {
     console.log(c.red('Invalid todo number'))
   }
-
   //input text
   const text = await input()
   if (text.length > 1) {
-    await db('todo').update({id: todo.id}, {task: text})
+    await db('todo').update({id: todo.id}, {task: text.strike()})
     console.log(c.italic('Changed task to', text))
   } else {
     console.log(c.red('The text needs to be longer than 1 character'))
   }
 }
 
+async function markDone(db) {
+
+}
+
 run()
+
+
