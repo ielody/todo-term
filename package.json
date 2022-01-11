@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "ansi-colors": "^4.1.1",
     "extras": "^0.8.0",
     "mongowave": "^0.2.5",
     "prompt": "^1.2.0"
