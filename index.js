@@ -5,7 +5,7 @@ const c = require('ansi-colors')
 
 async function run() {
   const db = await connection({ name: 'todo-term' })
-  //await showTasks(db)
+  await showTasks(db)
   while(true) {
 
     printMenu()
