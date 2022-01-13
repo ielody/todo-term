@@ -120,7 +120,7 @@ async function updateTask(db) {
   //input text
   const text = await input()
   if (text.length > 1) {
-    await db('todo').update({id: todo.id}, {task: text.strike()})
+    await db('todo').update({id: todo.id}, {task: text})
     console.log(c.italic('Changed task to', text))
   } else {
     console.log(c.red('The text needs to be longer than 1 character'))
@@ -128,8 +128,29 @@ async function updateTask(db) {
 }
 
 async function markDone(db) {
+  //show list
+  const todos = await db('todo').find()
+  todos.forEach((todo, i) => {
+    console.log(`${i + 1 + '.'} ${todo.task}`)
+  })
+  //input number
+  console.log('\nWrite task number')
+  var numbers = await input()
+  numbers = numbers.split(',').map(x => x.trim())
+  for (const number of numbers) {
+    var index = parseInt(number) - 1
+      var todo = todos[index]
+      if (todo) {
+        await db('todo').update({ id: todo.id }, {task: todo.task})
+        console.log(todo.task, ('has been marked as done'))
+        } else {
+        console.log(c.red('Invalid todo number'))
+        }
 
-}
+  }
+
+  }
+
 
 run()
 
