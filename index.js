@@ -72,7 +72,7 @@ async function showTasks(db) {
   console.log(c.italic('\nYour tasks:\n'))
   const todos = await db('todo').find()
   todos.forEach((todo, i) => {
-  console.log(`${i + 1 + '.'} ${todo.task}`)
+  console.log(c.magenta(`${i + 1 + '.'} ${todo.task}`))
   })
 }
 
@@ -81,7 +81,7 @@ async function deleteTask(db) {
 //show list
   const todos = await db('todo').find()
   todos.forEach((todo, i) => {
-  console.log(`${i + 1 + '.'} ${todo.task}`)
+  console.log(c.magenta(`${i + 1 + '.'} ${todo.task}`))
   })
   //input number
   console.log(c.italic('\nEnter the number of the task to delete'))
@@ -104,7 +104,7 @@ async function updateTask(db) {
   //show list
   const todos = await db('todo').find()
   todos.forEach((todo, i) => {
-  console.log(`${i + 1 + '.'} ${todo.task}`)
+  console.log(c.magenta(`${i + 1 + '.'} ${todo.task}`))
   })
   //input number
   console.log(c.italic('\nEnter the number of the task to update'))
@@ -123,35 +123,32 @@ async function updateTask(db) {
     await db('todo').update({id: todo.id}, {task: text})
     console.log(c.italic('Changed task to', text))
   } else {
-    console.log(c.red('The text needs to be longer than 1 character'))
+    console.log(c.red.bold('The text needs to be longer than 1 character'))
   }
 }
 
 async function markDone(db) {
   //show list
-  const todos = await db('todo').find()
-  todos.forEach((todo, i) => {
-    console.log(`${i + 1 + '.'} ${todo.task}`)
-  })
-  //input number
-  console.log('\nWrite task number')
-  var numbers = await input()
-  numbers = numbers.split(',').map(x => x.trim())
-  for (const number of numbers) {
-    var index = parseInt(number) - 1
-      var todo = todos[index]
-      if (todo) {
-        await db('todo').update({ id: todo.id }, {task: todo.task})
-        console.log(todo.task, ('has been marked as done'))
+    const todos = await db('todo').find()
+    todos.forEach((todo, i) => {
+      console.log(`${i + 1 + '.'} ${todo.task}`)
+    })
+    //get task number
+    console.log('\nWrite task number to mark as done')
+    var numbers = await input()
+    numbers = numbers.split(',').map(x => x.trim())
+    for (const number of numbers) {
+        var index = parseInt(number) - 1
+        var todo = todos[index]
+        todo.done = c.strikethrough(todo.task)
+        if (todo.done) {
+          await db('todo').update({id: todo.id}, {task: todo.done})
+          console.log(c.strikethrough(todo.task))
+        console.log('Tasks have been marked as done')
         } else {
         console.log(c.red('Invalid todo number'))
-        }
-
+      }
+    }
   }
-
-  }
-
 
 run()
-
-
