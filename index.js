@@ -84,20 +84,23 @@ async function deleteTask(db) {
   console.log(c.magenta(`${i + 1 + '.'} ${todo.task}`))
   })
   //input number
-  console.log(c.italic('\nEnter the number of the task to delete'))
+  console.log(c.italic('\nEnter task number(s) or "0" to delete all tasks'))
   var numbers = await input()
   numbers = numbers.split(',').map(x => x.trim())
   for (const number of numbers) {
     var index = parseInt(number) - 1
       var todo = todos[index]
-      if (todo) {
-        await db('todo').delete({ id: todo.id })
-        console.log(todo.task, c.italic('has been deleted'))
-        } else {
-        console.log(c.red('Invalid todo number'))
+        if (todo) {
+          await db('todo').delete({ id: todo.id })
+          console.log(todo.task, c.italic('has been deleted'))
+         } else if (number === '0') {
+          await db('todo').delete()
+          console.log('All tasks have been deleted')
+         } else {
+          console.log(c.red('Invalid todo number'))
+        }
+      }
     }
-  }
-}
 
 
 async function updateTask(db) {
@@ -127,6 +130,7 @@ async function updateTask(db) {
   }
 }
 
+
 async function markDone(db) {
   //show list
     const todos = await db('todo').find()
@@ -144,9 +148,9 @@ async function markDone(db) {
         if (todo.done) {
           await db('todo').update({id: todo.id}, {task: todo.done})
           console.log(c.strikethrough(todo.task))
-        console.log('Tasks have been marked as done')
-        } else {
-        console.log(c.red('Invalid todo number'))
+          console.log('Tasks have been marked as done')
+          } else {
+         console.log(c.red('Invalid todo number'))
       }
     }
   }
